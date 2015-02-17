@@ -20,4 +20,8 @@
     > http://www.gnu.org/licenses/lgpl.html
 
 */
+
+/**
+ * Feature dropwizard.
+ */
 package org.nmdp.service.feature.dropwizard;

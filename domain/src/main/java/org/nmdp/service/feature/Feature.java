@@ -52,7 +52,7 @@ public final class Feature {
         checkArgument(rank > 0, "rank must be at least 1");
         checkArgument(accession > 0L, "accession must be at least 1L");
         checkNotNull(sequence);
-            
+
         this.locus = locus;
         this.term = term;
         this.rank = rank;

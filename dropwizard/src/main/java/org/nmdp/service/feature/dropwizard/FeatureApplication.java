@@ -65,7 +65,7 @@ public final class FeatureApplication extends Application<FeatureConfiguration> 
     @Override
     public void initialize(final Bootstrap<FeatureConfiguration> bootstrap) {
         // for feature-service-jdbi
-    	bootstrap.addBundle(new DBIExceptionsBundle());
+        bootstrap.addBundle(new DBIExceptionsBundle());
     }
 
     @Override
@@ -83,7 +83,6 @@ public final class FeatureApplication extends Application<FeatureConfiguration> 
                 }
             });
 
-        
         // for feature-service-impl
         //Injector injector = Guice.createInjector(new FeatureServiceModule());
 
@@ -99,6 +98,7 @@ public final class FeatureApplication extends Application<FeatureConfiguration> 
      * Main.
      *
      * @param args command line arguments
+     * @throws Exception if an error occurs
      */
     public static void main(final String[] args) throws Exception {
         new FeatureApplication().run(args);

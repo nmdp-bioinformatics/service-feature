@@ -108,7 +108,7 @@ final class JdbiFeatureService implements FeatureService {
             logger.trace("next accession locusId " + locusId + " termId " + termId + " rank " + rank + " accession " + accession);
         }
         long featureId = insertFeature(locusId, termId, rank, accession, sequenceId);
-                
+
         if (logger.isTraceEnabled()) {
             logger.trace("finding feature by featureId " + featureId);
         }

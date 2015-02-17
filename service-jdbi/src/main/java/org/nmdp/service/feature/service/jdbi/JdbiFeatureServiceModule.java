@@ -24,8 +24,6 @@ package org.nmdp.service.feature.service.jdbi;
 
 import javax.annotation.concurrent.Immutable;
 
-import javax.sql.DataSource;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
