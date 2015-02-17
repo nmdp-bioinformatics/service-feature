@@ -20,4 +20,8 @@
     > http://www.gnu.org/licenses/lgpl.html
 
 */
+
+/**
+ * Feature service.
+ */
 package org.nmdp.service.feature.service;

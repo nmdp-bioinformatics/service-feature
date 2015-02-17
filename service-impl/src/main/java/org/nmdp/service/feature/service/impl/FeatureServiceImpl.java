@@ -97,7 +97,7 @@ final class FeatureServiceImpl implements FeatureService {
             ids = new AtomicLong(1L);
             sequences = new HashSet<String>();
             sequencesToFeatures = new HashMap<String, Feature>();
-        }        
+        }
 
         Feature createFeature(final String locus,
                               final String term,
