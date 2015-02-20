@@ -1,0 +1,67 @@
+#!/usr/bin/perl
+##############################################################################
+# SCRIPT NAME:	mk_requests
+# USAGE:	./mk_requests >requests.txt
+# DESCRIPTION:	parse hla.xml
+#               produce requests.txt intput to feature service
+# DATE WRITTEN: 2015-02-10
+# WRITTEN BY:   Martin Maiers
+##############################################################################
+use strict;    
+use warnings;  
+use XML::Simple;
+
+my $verbose =1;
+
+# 
+# download hla.xml 
+# $url = "ftp://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/xml/hla.xml.zip";
+#
+my $file = `cat hla.xml`;
+
+print STDERR "parsing..." if $verbose;
+my $alleles = XMLin($file);
+print STDERR "done\n" if $verbose;
+
+my %GF;  # Gene Feature
+
+foreach my $allele (keys %{$alleles->{"allele"}}) {
+  # $allele='HLA-A*01:01:08'
+  my $a = $alleles->{allele}->{$allele};
+  my $s = $a->{sequence};
+  my $nucsequence= $s->{nucsequence};
+  foreach my $feature (keys %{$s->{feature}}) {
+    # $feature = "Exon 8";
+    next unless $feature =~/(Exon|Intron|UTR)/;
+    my $start = $s->{feature}->{$feature}->{SequenceCoordinates}->{start};
+    my $end = $s->{feature}->{$feature}->{SequenceCoordinates}->{end};
+    my $nseq = substr($nucsequence, $start-1, $end-$start+1);
+    $GF{$allele}{$feature} = $nseq;
+  }
+}
+
+foreach my $allele (sort keys %GF) {
+  my $locus = (split /\*/, $allele)[0];
+  foreach my $feature (keys %{$GF{$allele}}) {
+    my $term;
+    my $rank;
+    if ($feature=~ /(\D+) (\d+)/ )  {
+      # Exon 2
+      # Intron 3
+      $term = lc $1; # lower case
+      $rank = $2;
+    } elsif ($feature=~/3' UTR/) {
+      $term = "three_prime_UTR";
+      $rank = 1;
+    } elsif ($feature=~/5' UTR/) {
+      $term = "five_prime_UTR";
+      $rank = 1;
+    } else {
+      warn "unknown feature: $feature";
+      next;
+    }
+    # format subject to change; 
+    print join ('	', $locus, $term, $rank, $GF{$allele}{$feature}), "\n";
+  }
+}
+exit 0;
