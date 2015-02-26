@@ -89,10 +89,11 @@
       <dependency>
         <groupId>org.nmdp.service</groupId>
         <artifactId>common-dropwizard</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1-RC1</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
+  <!-- todo: this should be moved to service-parent -->
   <repositories>
     <repository>
       <releases><enabled>false</enabled></releases>
