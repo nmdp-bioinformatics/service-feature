@@ -27,9 +27,13 @@ import javax.annotation.concurrent.Immutable;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * Feature request.
  */
+@ApiModel("Provide locus, term, rank, and accession or sequence to create an enumerated sequence feature.")
 @Immutable
 public final class FeatureRequest {
     private final String locus;
@@ -53,22 +57,27 @@ public final class FeatureRequest {
     }
 
 
+    @ApiModelProperty(value="locus name or URI", required=true)
     public String getLocus() {
         return locus;
     }
 
+    @ApiModelProperty(value="Sequence Ontology (SO) term name, accession, or URI", required=true)
     public String getTerm() {
         return term;
     }
 
+    @ApiModelProperty(value="feature rank, must be at least 1", required=true)
     public int getRank() {
         return rank;
     }
 
+    @ApiModelProperty("feature accession, if provided, must be at least 1")
     public long getAccession() {
         return accession;
     }
 
+    @ApiModelProperty("feature sequence, in DNA alphabet")
     public String getSequence() {
         return sequence;
     }

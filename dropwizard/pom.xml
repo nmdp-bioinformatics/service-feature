@@ -121,6 +121,11 @@
     </dependency>
     <dependency>
       <groupId>org.nmdp.service</groupId>
+      <artifactId>common-dropwizard</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.nmdp.service</groupId>
       <artifactId>feature-resource</artifactId>
       <scope>compile</scope>
     </dependency>

@@ -86,6 +86,11 @@
         <artifactId>dsh-multi-map</artifactId>
         <version>1.0</version>
       </dependency>
+      <dependency>
+        <groupId>org.nmdp.service</groupId>
+        <artifactId>common-dropwizard</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 </project>
