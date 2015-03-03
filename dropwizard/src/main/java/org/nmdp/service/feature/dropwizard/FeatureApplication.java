@@ -30,6 +30,10 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import com.wordnik.swagger.config.SwaggerConfig;
+
+import com.wordnik.swagger.model.ApiInfo;
+
 import io.dropwizard.Application;
 
 import io.dropwizard.jdbi.DBIFactory;
@@ -38,6 +42,8 @@ import io.dropwizard.jdbi.bundles.DBIExceptionsBundle;
 
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+
+import org.nmdp.service.common.dropwizard.CommonServiceApplication;
 
 import org.nmdp.service.feature.Feature;
 
@@ -55,7 +61,7 @@ import org.skife.jdbi.v2.DBI;
  * Feature application.
  */
 @Immutable
-public final class FeatureApplication extends Application<FeatureConfiguration> {
+public final class FeatureApplication extends CommonServiceApplication<FeatureConfiguration> {
 
     @Override
     public String getName() {
@@ -63,13 +69,13 @@ public final class FeatureApplication extends Application<FeatureConfiguration> 
     }
 
     @Override
-    public void initialize(final Bootstrap<FeatureConfiguration> bootstrap) {
+    public void initializeService(final Bootstrap<FeatureConfiguration> bootstrap) {
         // for feature-service-jdbi
         bootstrap.addBundle(new DBIExceptionsBundle());
     }
 
     @Override
-    public void run(final FeatureConfiguration configuration, final Environment environment) throws Exception {
+    public void runService(final FeatureConfiguration configuration, final Environment environment) throws Exception {
 
         // for feature-service-jdbi
         final DBIFactory factory = new DBIFactory();
@@ -91,6 +97,17 @@ public final class FeatureApplication extends Application<FeatureConfiguration> 
         environment.getObjectMapper()
             .enable(SerializationFeature.INDENT_OUTPUT)
             .addMixInAnnotations(Feature.class, FeatureMixIn.class);
+    }
+
+    @Override
+    public void configureSwagger(final SwaggerConfig config) {
+        config.setApiVersion("1.0");
+        config.setApiInfo(new ApiInfo("Feature service",
+                                      "Enumerated sequence feature service.",
+                                      null,
+                                      null,
+                                      "GNU Lesser General Public License (LGPL), version 3 or later",
+                                      "http://www.gnu.org/licenses/lgpl.html"));
     }
 
 

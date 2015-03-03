@@ -63,6 +63,11 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
+      <groupId>com.wordnik</groupId>
+      <artifactId>swagger-jaxrs_2.10</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
       <groupId>javax.ws.rs</groupId>
       <artifactId>jsr311-api</artifactId>
       <scope>provided</scope>

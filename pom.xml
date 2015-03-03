@@ -86,8 +86,27 @@
         <artifactId>dsh-multi-map</artifactId>
         <version>1.0</version>
       </dependency>
+      <dependency>
+        <groupId>org.nmdp.service</groupId>
+        <artifactId>common-dropwizard</artifactId>
+        <version>1.0</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
+  <!-- todo: this should be moved to service-parent -->
+  <repositories>
+    <repository>
+      <releases><enabled>false</enabled></releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+        <checksumPolicy>fail</checksumPolicy>
+      </snapshots>
+      <id>ossrh</id>
+      <name>Sonatype Nexus Snapshot Repository</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+  </repositories>
 </project>
 
 

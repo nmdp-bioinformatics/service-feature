@@ -44,12 +44,18 @@ import org.nmdp.service.feature.service.FeatureService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiImplicitParam;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+
 /**
  * Feature resource.
  */
 @Path("/features")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@Api(value="Features", description="Create and retrieve enumerated sequence features.")
 @Immutable
 public final class FeatureResource {
     private final FeatureService featureService;
@@ -62,10 +68,11 @@ public final class FeatureResource {
     }
 
     @GET
-    public Feature getFeature(final @QueryParam("locus") String locus,
-                              final @QueryParam("term") String term,
-                              final @QueryParam("rank") int rank,
-                              final @QueryParam("accession") long accession) {
+    @ApiOperation(value="Retrieve an enumerated sequence feature", response=Feature.class)
+    public Feature getFeature(final @QueryParam("locus") @ApiParam("locus name or URI") String locus,
+                              final @QueryParam("term") @ApiParam("Sequence Ontology (SO) term name, accession, or URI") String term,
+                              final @QueryParam("rank") @ApiParam("feature rank, must be at least 1") int rank,
+                              final @QueryParam("accession") @ApiParam("accession, must be at least 1") long accession) {
 
         if (logger.isTraceEnabled()) {
             logger.trace("getFeature locus " + locus + " term " + term + " rank " + rank + " accession " + accession);
@@ -76,6 +83,8 @@ public final class FeatureResource {
     }
 
     @POST
+    @ApiOperation(value="Create an enumerated sequence feature", response=Feature.class)
+    @ApiImplicitParam(paramType="body", dataType="FeatureRequest")
     public Feature createFeature(final FeatureRequest featureRequest) {
         checkNotNull(featureRequest);
 
@@ -85,14 +94,12 @@ public final class FeatureResource {
 
         // todo: should this check accession < 1L instead?
         if (!Long.valueOf(0L).equals(featureRequest.getAccession())) {
-
             if (logger.isTraceEnabled()) {
                 logger.trace("getFeature locus " + featureRequest.getLocus() + " term " + featureRequest.getTerm() + " rank " + featureRequest.getRank() + " accession " + featureRequest.getAccession());
             }
             return featureService.getFeature(featureRequest.getLocus(), featureRequest.getTerm(), featureRequest.getRank(), featureRequest.getAccession());
         }
         else if (featureRequest.getSequence() != null) {
-
             if (logger.isTraceEnabled()) {
                 logger.trace("createFeature locus " + featureRequest.getLocus() + " term " + featureRequest.getTerm() + " rank " + featureRequest.getRank() + " sequence " + featureRequest.getSequence());
             }
