@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-
+2
     feature-dropwizard  Feature dropwizard.
     Copyright (c) 2014-2015 National Marrow Donor Program (NMDP)
 
@@ -78,7 +78,7 @@
       </dependency>
       <dependency>
         <groupId>org.nmdp.service</groupId>
-        <artifactId>feature-service-jdbi</artifactId>
+        <artifactId>feature-service-impl</artifactId>
         <version>${project.version}</version>
       </dependency>
     </dependencies>
@@ -105,19 +105,9 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>io.dropwizard</groupId>
-      <artifactId>dropwizard-jdbi</artifactId>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.nmdp.service</groupId>
@@ -131,7 +121,7 @@
     </dependency>
     <dependency>
       <groupId>org.nmdp.service</groupId>
-      <artifactId>feature-service-jdbi</artifactId>
+      <artifactId>feature-service-impl</artifactId>
       <scope>compile</scope>
     </dependency>
   </dependencies>

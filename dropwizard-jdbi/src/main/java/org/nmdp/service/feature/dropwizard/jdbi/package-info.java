@@ -1,6 +1,6 @@
 /*
 
-    feature-dropwizard  Feature dropwizard.
+    feature-dropwizard-jdbi  Feature dropwizard JDBI.
     Copyright (c) 2014-2015 National Marrow Donor Program (NMDP)
 
     This library is free software; you can redistribute it and/or modify it
@@ -20,16 +20,8 @@
     > http://www.gnu.org/licenses/lgpl.html
 
 */
-package org.nmdp.service.feature.dropwizard;
-
-import javax.annotation.concurrent.Immutable;
-
-import io.dropwizard.Configuration;
 
 /**
- * Feature configuration.
+ * Feature dropwizard JDBI.
  */
-@Immutable
-public final class FeatureConfiguration extends Configuration {
-    // empty
-}
+package org.nmdp.service.feature.dropwizard.jdbi;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    feature-resource  Feature resources.
+    feature-dropwizard-jdbi  Feature dropwizard JDBI.
     Copyright (c) 2014-2015 National Marrow Donor Program (NMDP)
 
     This library is free software; you can redistribute it and/or modify it
@@ -29,24 +29,61 @@
     <artifactId>feature-multimodule</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>feature-resource</artifactId>
-  <name>feature-resource</name>
-  <description>Feature resources.</description>
+  <artifactId>feature-dropwizard-jdbi</artifactId>
+  <name>feature-dropwizard-jdbi</name>
+  <description>Feature dropwizard JDBI.</description>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <configuration>
+          <createDependencyReducedPom>true</createDependencyReducedPom>
+          <filters>
+            <filter>
+              <artifact>*:*</artifact>
+              <excludes>
+                <exclude>META-INF/*.SF</exclude>
+                <exclude>META-INF/*.DSA</exclude>
+                <exclude>META-INF/*.RSA</exclude>
+              </excludes>
+            </filter>
+          </filters>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>org.nmdp.service.feature.dropwizard.jdbi.FeatureJdbiApplication</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
   <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>org.nmdp.service</groupId>
-        <artifactId>feature-service</artifactId>
+        <artifactId>feature-resource</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.nmdp.service</groupId>
+        <artifactId>feature-service-jdbi</artifactId>
         <version>${project.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-annotations</artifactId>
-      <scope>compile</scope>
-    </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
@@ -63,13 +100,13 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>com.wordnik</groupId>
-      <artifactId>swagger-jaxrs_2.10</artifactId>
+      <groupId>io.dropwizard</groupId>
+      <artifactId>dropwizard-core</artifactId>
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>javax.ws.rs-api</artifactId>
+      <groupId>io.dropwizard</groupId>
+      <artifactId>dropwizard-jdbi</artifactId>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -78,18 +115,23 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <scope>test</scope>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.nmdp.service</groupId>
-      <artifactId>feature-service</artifactId>
+      <artifactId>common-dropwizard</artifactId>
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
+      <groupId>org.nmdp.service</groupId>
+      <artifactId>feature-resource</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.nmdp.service</groupId>
+      <artifactId>feature-service-jdbi</artifactId>
       <scope>compile</scope>
     </dependency>
   </dependencies>
