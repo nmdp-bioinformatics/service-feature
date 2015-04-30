@@ -22,6 +22,8 @@
 */
 package org.nmdp.service.feature.dropwizard;
 
+import com.codahale.metrics.health.HealthCheck;
+
 import javax.annotation.concurrent.Immutable;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -67,6 +69,13 @@ public final class FeatureApplication extends CommonServiceApplication<FeatureCo
     @Override
     public void runService(final FeatureConfiguration configuration, final Environment environment) throws Exception {
         Injector injector = Guice.createInjector(new FeatureServiceModule());
+
+        environment.healthChecks().register("feature", new HealthCheck() {
+                @Override
+                protected Result check() throws Exception {
+                    return Result.healthy();
+                }
+            });
 
         environment.jersey().register(injector.getInstance(FeatureResource.class));
 
