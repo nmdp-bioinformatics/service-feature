@@ -37,6 +37,7 @@ import com.wordnik.swagger.model.ApiInfo;
 import io.dropwizard.Application;
 
 import io.dropwizard.jdbi.DBIFactory;
+import io.dropwizard.jdbi.DBIHealthCheck;
 
 import io.dropwizard.jdbi.bundles.DBIExceptionsBundle;
 
@@ -83,6 +84,8 @@ public final class FeatureJdbiApplication extends CommonServiceApplication<Featu
                     bind(FeatureDao.class).toInstance(featureDao);
                 }
             });
+
+        environment.healthChecks().register("database", new DBIHealthCheck(jdbi, "select 1"));
 
         environment.jersey().register(injector.getInstance(FeatureResource.class));
 
