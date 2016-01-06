@@ -1,0 +1,5 @@
+database:
+  driverClass: com.mysql.jdbc.Driver
+  user: root
+  password: supersecretpwd
+  url: jdbc:mysql://featuredb:3306/feature
