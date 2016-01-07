@@ -8,7 +8,7 @@ The `config/database.yml` file contains the mysql connection information.
 ├── Dockerfile
 ├── config
 │   └── database.yml
-└── feature-dropwizard-1.0-SNAPSHOT.jar
+└── feature-dropwizard-jdbi-1.0-SNAPSHOT.jar
 ```
 
 Build the docker image 
