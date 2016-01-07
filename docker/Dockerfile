@@ -7,6 +7,6 @@ COPY feature-dropwizard-jdbi-1.0-SNAPSHOT.jar /feature/feature-dropwizard.jar
 
 VOLUME ["/config"]
 
-ENTRYPOINT ["java", "-jar", "/feature/feature-dropwizard.jar"]
+ENTRYPOINT ["java", "-jar", "/feature/feature-dropwizard.jar", "server"]
 
-CMD ["server", "/config/database.yml"]
+CMD ["/config/database.yml"]
