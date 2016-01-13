@@ -9,7 +9,7 @@ create table if not exists `locus` (
 
 create table if not exists `term` (
   `term_id` bigint not null auto_increment,
-  `name` varchar(128) not null,
+  `name` varchar(256) not null,
   `accession` varchar(128) not null,
   `uri` varchar(512) not null,
   primary key (`term_id`),
