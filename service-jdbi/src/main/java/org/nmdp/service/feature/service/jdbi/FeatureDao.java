@@ -59,7 +59,7 @@ public interface FeatureDao extends Transactional<FeatureDao> {
     Feature findFeatureBySequenceId(@Bind("locusId") long locusId, @Bind("termId") long termId, @Bind("rank") int rank, @Bind("sequenceId") long sequenceId);
 
     @SqlQuery("select ifnull(max(accession),0)+1 from feature where locus_id = :locusId and term_id = :termId and rank = :rank")
-    long nextAccession(@Bind("locusId") long locusId, @Bind("termId") long termId, @Bind("rank") int rank, @Bind("sequenceId") long sequenceId);
+    long nextAccession(@Bind("locusId") long locusId, @Bind("termId") long termId, @Bind("rank") int rank);
 
     @SqlUpdate("insert into sequence (sequence) values (:sequence)")
     long insertSequence(@Bind("sequence") String sequence);

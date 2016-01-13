@@ -102,10 +102,10 @@ final class JdbiFeatureService implements FeatureService {
         if (sequenceId < 1L) {
             sequenceId = insertSequence(sequence);
         }
-        long accession = featureDao.nextAccession(locusId, termId, rank, sequenceId);
+        long accession = featureDao.nextAccession(locusId, termId, rank);
 
         if (logger.isTraceEnabled()) {
-            logger.trace("next accession locusId " + locusId + " termId " + termId + " rank " + rank + " accession " + accession);
+            logger.trace("next accession locusId " + locusId + " termId " + termId + " rank " + rank);
         }
         long featureId = insertFeature(locusId, termId, rank, accession, sequenceId);
 
