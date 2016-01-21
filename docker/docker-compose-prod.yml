@@ -1,6 +1,6 @@
 # Production Feature Service docker deployment
 service-feature:
-  image: nmdpbioinformatics/feature-service:1.0-SNAPSHOT
+  image: nmdpbioinformatics/feature-service:latest
   ports:
     - "80:8080"
     - "81:8081"
