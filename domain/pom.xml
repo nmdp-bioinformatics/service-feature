@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.nmdp.service</groupId>
     <artifactId>feature-multimodule</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
   </parent>
   <artifactId>feature-domain</artifactId>
   <name>feature-domain</name>
