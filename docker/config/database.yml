@@ -1,19 +1,19 @@
 logging:
   # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
-  level: INFO
+  level: ${DEFAULT_LOGGING_LEVEL:-INFO}
   # Logger-specific levels
   loggers:
     # featureservice
-    org.nmdp.feature: TRACE
+    org.nmdp.feature: ${FEATURE_LOGGING_LEVEL:-INFO}
 database:
   # the name of your JDBC driver
   driverClass: com.mysql.jdbc.Driver
   # the username
-  user: root
+  user: ${MYSQL_USER:-root}
   # the password
-  password: supersecretpwd
+  password: ${MYSQL_PASSWORD:-supersecretpwd}
   # the JDBC URL
-  url: jdbc:mysql://featuredb:3306/feature
+  url: jdbc:mysql://${MYSQL_HOST:-featuredb}:${MYSQL_PORT:-3306}/feature
   # the maximum amount of time to wait on an empty pool before throwing an exception
   maxWaitForConnection: 1s
   # the SQL query to run when validating a connection's liveness

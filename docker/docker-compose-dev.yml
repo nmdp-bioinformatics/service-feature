@@ -1,19 +1,23 @@
 # Development Feature Service docker deployment
 # Feature service image is built and deployed
-feature-service:
+service-feature:
   build: .
   ports:
-    - "80:8080"
-    - "81:8081"
-  volumes:
-    - ${PWD}/config:/config
+    - 80:8080
+    - 81:8081
   links:
     - featuredb
   restart: always
 
 featuredb:
   image: mysql:5.7
+  # Open the port in dev, in case you want to connect using SQL Tools eg. SQLDeveloper
+  ports:
+    - 3306:3306
   environment:
     MYSQL_DATABASE: feature
     MYSQL_ROOT_PASSWORD: supersecretpwd
-
+  # If using Docker Toolbox, ssh into your volume and make a /data directory
+  # before using this docker-compose file.
+  volumes:
+    - /data:/var/lib/mysql

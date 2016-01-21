@@ -36,6 +36,8 @@ import com.wordnik.swagger.model.ApiInfo;
 
 import io.dropwizard.Application;
 
+import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
+import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.jdbi.DBIHealthCheck;
 
@@ -70,6 +72,10 @@ public final class FeatureJdbiApplication extends CommonServiceApplication<Featu
     @Override
     public void initializeService(final Bootstrap<FeatureJdbiConfiguration> bootstrap) {
         bootstrap.addBundle(new DBIExceptionsBundle());
+        bootstrap.setConfigurationSourceProvider(
+                new SubstitutingSourceProvider(
+                        bootstrap.getConfigurationSourceProvider(),
+                        new EnvironmentVariableSubstitutor()));
     }
 
     @Override
