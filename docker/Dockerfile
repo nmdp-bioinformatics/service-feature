@@ -3,9 +3,19 @@ MAINTAINER Pradeep Bashyal <pbashyal@nmdp.org>
 
 WORKDIR /feature
 
-COPY feature-dropwizard-jdbi-1.0-SNAPSHOT.jar /feature/feature-dropwizard.jar
+EXPOSE 8080
+EXPOSE 8081
 
-VOLUME ["/config"]
+ENV DEFAULT_LOGGING_LEVEL=INFO \
+    FEATURE_LOGGING_LEVEL=INFO \
+    MYSQL_USER=root \
+    MYSQL_PASSWORD=supersecretpwd \
+    MYSQL_HOST=featuredb \
+    MYSQL_PORT=3306
+
+
+COPY config/database.yml /config/
+COPY feature-dropwizard-jdbi-1.0-SNAPSHOT.jar /feature/feature-dropwizard.jar
 
 ENTRYPOINT ["java", "-jar", "/feature/feature-dropwizard.jar", "server"]
 
