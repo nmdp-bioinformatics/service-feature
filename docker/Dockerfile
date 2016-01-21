@@ -15,7 +15,7 @@ ENV DEFAULT_LOGGING_LEVEL=INFO \
 
 
 COPY config/database.yml /config/
-COPY feature-dropwizard-jdbi-1.0-SNAPSHOT.jar /feature/feature-dropwizard.jar
+COPY feature-dropwizard.jar /feature/feature-dropwizard.jar
 
 ENTRYPOINT ["java", "-jar", "/feature/feature-dropwizard.jar", "server"]
 
