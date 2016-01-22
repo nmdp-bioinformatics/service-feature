@@ -36,7 +36,7 @@ public final class FeatureRequestTest {
 
     @Before
     public void setUp() {
-        featureRequest = new FeatureRequest("locus", "term", 2, 42L, "ACGT");
+        featureRequest = new FeatureRequest("locus", "term", 2, "ACGT");
     }
 
     @Test
@@ -49,7 +49,6 @@ public final class FeatureRequestTest {
         assertEquals("locus", featureRequest.getLocus());
         assertEquals("term", featureRequest.getTerm());
         assertEquals(2, featureRequest.getRank());
-        assertEquals(42L, featureRequest.getAccession());
         assertEquals("ACGT", featureRequest.getSequence());
     }
 }
