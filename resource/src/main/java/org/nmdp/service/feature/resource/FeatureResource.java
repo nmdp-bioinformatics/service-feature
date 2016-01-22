@@ -89,22 +89,8 @@ public final class FeatureResource {
         checkNotNull(featureRequest);
 
         if (logger.isTraceEnabled()) {
-            logger.warn("createFeature locus " + featureRequest.getLocus() + " term " + featureRequest.getTerm() + " rank " + featureRequest.getRank() + " accession " + featureRequest.getAccession() + " sequence " + featureRequest.getSequence());
+            logger.trace("createFeature locus " + featureRequest.getLocus() + " term " + featureRequest.getTerm() + " rank " + featureRequest.getRank() + " sequence " + featureRequest.getSequence());
         }
-
-        // todo: should this check accession < 1L instead?
-        if (!Long.valueOf(0L).equals(featureRequest.getAccession())) {
-            if (logger.isTraceEnabled()) {
-                logger.trace("getFeature locus " + featureRequest.getLocus() + " term " + featureRequest.getTerm() + " rank " + featureRequest.getRank() + " accession " + featureRequest.getAccession());
-            }
-            return featureService.getFeature(featureRequest.getLocus(), featureRequest.getTerm(), featureRequest.getRank(), featureRequest.getAccession());
-        }
-        else if (featureRequest.getSequence() != null) {
-            if (logger.isTraceEnabled()) {
-                logger.trace("createFeature locus " + featureRequest.getLocus() + " term " + featureRequest.getTerm() + " rank " + featureRequest.getRank() + " sequence " + featureRequest.getSequence());
-            }
-            return featureService.createFeature(featureRequest.getLocus(), featureRequest.getTerm(), featureRequest.getRank(), featureRequest.getSequence());
-        }
-        return null;
+        return featureService.createFeature(featureRequest.getLocus(), featureRequest.getTerm(), featureRequest.getRank(), featureRequest.getSequence());
     }
 }

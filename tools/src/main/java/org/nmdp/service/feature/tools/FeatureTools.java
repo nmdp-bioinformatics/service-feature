@@ -108,7 +108,7 @@ public final class FeatureTools implements Callable<Integer> {
                 }
                 else {
                     // locus, term, rank, sequence
-                    writeFeature(featureService.createFeature(new FeatureRequest(tokens[0], tokens[1], Integer.parseInt(tokens[2]), 0L, tokens[3])), writer);
+                    writeFeature(featureService.createFeature(new FeatureRequest(tokens[0], tokens[1], Integer.parseInt(tokens[2]), tokens[3])), writer);
                 }
                 lineNumber++;
             }

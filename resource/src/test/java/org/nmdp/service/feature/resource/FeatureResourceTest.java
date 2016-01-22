@@ -74,6 +74,7 @@ public final class FeatureResourceTest {
     @Test
     public void testGetFeatureMiss() {
         when(featureService.getFeature("locus", "term", 2, 42L)).thenReturn(null);
+        // todo: this should throw a 404
         assertNull(featureResource.getFeature("locus", "term", 2, 42L));
     }
 
@@ -83,19 +84,13 @@ public final class FeatureResourceTest {
     }
 
     @Test
-    public void testCreateFeatureInvalidFeatureRequest() {
-        assertNull(featureResource.createFeature(new FeatureRequest("locus", "term", 2, -1, null)));
-    }
-
-    @Test
-    public void testCreateFeatureValidAccession() {
-        when(featureService.getFeature("locus", "term", 2, 42L)).thenReturn(feature);
-        assertEquals(feature, featureResource.createFeature(new FeatureRequest("locus", "term", 2, 42L, null)));
+    public void testCreateFeatureNullSequence() {
+        assertNull(featureResource.createFeature(new FeatureRequest("locus", "term", 2, null)));
     }
 
     @Test
     public void testCreateFeatureValidSequence() {
         when(featureService.createFeature("locus", "term", 2, "ACGT")).thenReturn(feature);
-        assertEquals(feature, featureResource.createFeature(new FeatureRequest("locus", "term", 2, 0L, "ACGT")));
+        assertEquals(feature, featureResource.createFeature(new FeatureRequest("locus", "term", 2, "ACGT")));
     }
 }

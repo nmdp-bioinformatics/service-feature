@@ -33,26 +33,23 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 /**
  * Feature request.
  */
-@ApiModel("Provide locus, term, rank, and accession or sequence to create an enumerated sequence feature.")
+@ApiModel("Provide locus, term, rank, and sequence to create an enumerated sequence feature.")
 @Immutable
 public final class FeatureRequest {
     private final String locus;
     private final String term;
     private final int rank;
-    private final long accession;
     private final String sequence;
 
     @JsonCreator
     public FeatureRequest(final @JsonProperty("locus") String locus,
                           final @JsonProperty("term") String term,
                           final @JsonProperty("rank") int rank,
-                          final @JsonProperty("accession") long accession,
                           final @JsonProperty("sequence") String sequence) {
 
         this.locus = locus;
         this.term = term;
         this.rank = rank;
-        this.accession = accession;
         this.sequence = sequence;
     }
 
@@ -70,11 +67,6 @@ public final class FeatureRequest {
     @ApiModelProperty(value="feature rank, must be at least 1", required=true)
     public int getRank() {
         return rank;
-    }
-
-    @ApiModelProperty("feature accession, if provided, must be at least 1")
-    public long getAccession() {
-        return accession;
     }
 
     @ApiModelProperty("feature sequence, in DNA alphabet")
