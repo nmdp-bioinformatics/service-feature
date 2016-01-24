@@ -1,10 +1,18 @@
 logging:
   # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
-  level: ${DEFAULT_LOGGING_LEVEL:-INFO}
+  level: ${LOGGING_LEVEL_DEFAULT:-INFO}
   # Logger-specific levels
   loggers:
     # featureservice
-    org.nmdp.feature: ${FEATURE_LOGGING_LEVEL:-INFO}
+    org.nmdp.feature: ${LOGGING_LEVEL_FEATURE:-INFO}
+
+  appenders:
+    - type: file
+      threshold: INFO
+      logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
+      currentLogFilename: ${LOG_DIR}/feature-service.log
+      archive: false
+
 database:
   # the name of your JDBC driver
   driverClass: com.mysql.jdbc.Driver
