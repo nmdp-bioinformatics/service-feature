@@ -21,3 +21,15 @@ featuredb:
   # before using this docker-compose file.
   volumes:
     - /data:/var/lib/mysql
+
+phpmyadmin:
+  image: phpmyadmin/phpmyadmin
+  container_name: myadmin
+  environment:
+   - PMA_ARBITRARY=1
+     PMA_HOST=featuredb
+  restart: always
+  ports:
+   - 8080:8080
+  links:
+  - featuredb:db
