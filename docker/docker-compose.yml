@@ -1,13 +1,14 @@
 # Development Feature Service docker deployment
-# Feature service image is built and deployed
+# Feature service image is pulled and deployed
 service-feature:
-  build: .
+  image: nmdpbioinformatics/feature-service
   ports:
     - 80:8080
     - 81:8081
   links:
     - featuredb
   restart: always
+
 
 featuredb:
   image: mysql:5.7
@@ -21,15 +22,3 @@ featuredb:
   # before using this docker-compose file.
   volumes:
     - /data:/var/lib/mysql
-
-phpmyadmin:
-  image: phpmyadmin/phpmyadmin
-  container_name: myadmin
-  environment:
-   - PMA_ARBITRARY=1
-     PMA_HOST=featuredb
-  restart: always
-  ports:
-   - 8080:8080
-  links:
-  - featuredb:db
