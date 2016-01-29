@@ -30,7 +30,7 @@
   </parent>
   <groupId>org.nmdp.service</groupId>
   <artifactId>feature-multimodule</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.6-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>feature-multimodule</name>
   <url>https://github.com/nmdp-bioinformatics/service-feature</url>
