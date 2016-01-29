@@ -66,16 +66,28 @@ public final class FeatureResourceTest {
     }
 
     @Test
-    public void testGetFeature() {
+    public void testGetFeatureByQuery() {
         when(featureService.getFeature("locus", "term", 2, 42L)).thenReturn(feature);
-        assertEquals(feature, featureResource.getFeature("locus", "term", 2, 42L));
+        assertEquals(feature, featureResource.getFeatureByQuery("locus", "term", 2, 42L));
     }
 
     @Test
-    public void testGetFeatureMiss() {
+    public void testGetFeatureByQueryMiss() {
         when(featureService.getFeature("locus", "term", 2, 42L)).thenReturn(null);
         // todo: this should throw a 404
-        assertNull(featureResource.getFeature("locus", "term", 2, 42L));
+        assertNull(featureResource.getFeatureByQuery("locus", "term", 2, 42L));
+    }
+
+    @Test
+    public void testGetFeatureByPath() {
+        when(featureService.getFeature("locus", "term", 2, 42L)).thenReturn(feature);
+        assertEquals(feature, featureResource.getFeatureByPath("locus", "term", 2, 42L));
+    }
+
+    @Test
+    public void testGetFeatureByPathMiss() {
+        when(featureService.getFeature("locus", "term", 2, 42L)).thenReturn(null);
+        assertNull(featureResource.getFeatureByPath("locus", "term", 2, 42L));
     }
 
     @Test(expected=NullPointerException.class)

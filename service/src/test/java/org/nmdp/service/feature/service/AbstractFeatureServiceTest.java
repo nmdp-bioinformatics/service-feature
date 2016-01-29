@@ -83,4 +83,34 @@ public abstract class AbstractFeatureServiceTest {
     public final void testCreateFeatureNullSequence() {
         featureService.createFeature("locus", "term", 2, null);
     }
+
+    @Test(expected=NullPointerException.class)
+    public final void testListFeaturesNullLocus() {
+        featureService.listFeatures(null);
+    }
+
+    @Test(expected=NullPointerException.class)
+    public final void testListFeaturesLocusTermNullLocus() {
+        featureService.listFeatures(null, "term");
+    }
+
+    @Test(expected=NullPointerException.class)
+    public final void testListFeaturesLocusTermNullTerm() {
+        featureService.listFeatures("locus", null);
+    }
+
+    @Test(expected=NullPointerException.class)
+    public final void testListFeaturesLocusTermRankNullLocus() {
+        featureService.listFeatures(null, "term", 1);
+    }
+
+    @Test(expected=NullPointerException.class)
+    public final void testListFeaturesLocusTermRankNullTerm() {
+        featureService.listFeatures("locus", null, 1);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public final void testListFeaturesLocusTermRankInvalidRank() {
+        featureService.listFeatures("locus", "term", 0);
+    }
 }
