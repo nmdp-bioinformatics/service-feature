@@ -22,6 +22,8 @@
 */
 package org.nmdp.service.feature.service;
 
+import java.util.List;
+
 import org.nmdp.service.feature.Feature;
 
 /**
@@ -51,4 +53,34 @@ public interface FeatureService {
      * @return the feature for the specified locus, term, rank, and sequence
      */
     Feature createFeature(String locus, String term, int rank, String sequence);
+
+    /**
+     * List the features at the specified locus, if any.
+     *
+     * @param locus locus, must not be null
+     * @return a list of features at the specified locus or an empty list
+     *    if no such features exist
+     */
+    List<Feature> listFeatures(String locus);
+
+    /**
+     * List the features at the specified locus and term, if any.
+     *
+     * @param locus locus, must not be null
+     * @param term term, must not be null
+     * @return a list of features at the specified locus and term, or an empty list
+     *    if no such features exist
+     */
+    List<Feature> listFeatures(String locus, String term);
+
+    /**
+     * List the features at the specified locus, term, and rank, if any.
+     *
+     * @param locus locus, must not be null
+     * @param term term, must not be null
+     * @param rank rank, must be at least <code>1</code>
+     * @return a list of features at the specified locus, term, and rank, or an empty list
+     *    if no such features exist
+     */
+    List<Feature> listFeatures(String locus, String term, int rank);
 }

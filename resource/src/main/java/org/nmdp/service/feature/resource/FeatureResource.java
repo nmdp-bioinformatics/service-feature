@@ -24,11 +24,14 @@ package org.nmdp.service.feature.resource;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.List;
+
 import javax.annotation.concurrent.Immutable;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -69,10 +72,10 @@ public final class FeatureResource {
 
     @GET
     @ApiOperation(value="Retrieve an enumerated sequence feature", response=Feature.class)
-    public Feature getFeature(final @QueryParam("locus") @ApiParam("locus name or URI") String locus,
-                              final @QueryParam("term") @ApiParam("Sequence Ontology (SO) term name, accession, or URI") String term,
-                              final @QueryParam("rank") @ApiParam("feature rank, must be at least 1") int rank,
-                              final @QueryParam("accession") @ApiParam("accession, must be at least 1") long accession) {
+    public Feature getFeatureByQuery(final @QueryParam("locus") @ApiParam("locus name or URI") String locus,
+                                     final @QueryParam("term") @ApiParam("Sequence Ontology (SO) term name, accession, or URI") String term,
+                                     final @QueryParam("rank") @ApiParam("feature rank, must be at least 1") int rank,
+                                     final @QueryParam("accession") @ApiParam("accession, must be at least 1") long accession) {
 
         if (logger.isTraceEnabled()) {
             logger.trace("getFeature locus " + locus + " term " + term + " rank " + rank + " accession " + accession);
@@ -92,5 +95,42 @@ public final class FeatureResource {
             logger.trace("createFeature locus " + featureRequest.getLocus() + " term " + featureRequest.getTerm() + " rank " + featureRequest.getRank() + " sequence " + featureRequest.getSequence());
         }
         return featureService.createFeature(featureRequest.getLocus(), featureRequest.getTerm(), featureRequest.getRank(), featureRequest.getSequence());
+    }
+
+    @GET
+    @Path("{locus}")
+    @ApiOperation(value="List the enumerated sequence features at a locus", response=Feature.class, responseContainer="List")
+    public List<Feature> listFeatures(final @PathParam("locus") @ApiParam("locus name or URI") String locus) {
+        return featureService.listFeatures(locus);
+    }
+
+    @GET
+    @Path("{locus}/{term}")
+    @ApiOperation(value="List the enumerated sequence features matching a term at a locus", response=Feature.class, responseContainer="List")
+    public List<Feature> listFeatures(final @PathParam("locus") @ApiParam("locus name or URI") String locus,
+                                      final @PathParam("term") @ApiParam("Sequence Ontology (SO) term name, accession, or URI") String term) {
+
+        return featureService.listFeatures(locus, term);
+    }
+
+    @GET
+    @Path("{locus}/{term}/{rank}")
+    @ApiOperation(value="List the enumerated sequence features matching a term and rank at a locus", response=Feature.class, responseContainer="List")
+    public List<Feature> listFeatures(final @PathParam("locus") @ApiParam("locus name or URI") String locus,
+                                      final @PathParam("term") @ApiParam("Sequence Ontology (SO) term name, accession, or URI") String term,
+                                      final @PathParam("rank") @ApiParam("feature rank, must be at least 1") int rank) {
+
+        return featureService.listFeatures(locus, term, rank);
+    }
+
+    @GET
+    @Path("{locus}/{term}/{rank}/{accession}")
+    @ApiOperation(value="Retrieve an enumerated sequence feature", response=Feature.class)
+    public Feature getFeatureByPath(final @PathParam("locus") @ApiParam("locus name or URI") String locus,
+                                    final @PathParam("term") @ApiParam("Sequence Ontology (SO) term name, accession, or URI") String term,
+                                    final @PathParam("rank") @ApiParam("feature rank, must be at least 1") int rank,
+                                    final @PathParam("accession") @ApiParam("accession, must be at least 1") long accession) {
+
+        return featureService.getFeature(locus, term, rank, accession);
     }
 }
