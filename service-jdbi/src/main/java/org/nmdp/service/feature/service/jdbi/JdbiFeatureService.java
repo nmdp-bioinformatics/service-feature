@@ -25,6 +25,8 @@ package org.nmdp.service.feature.service.jdbi;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.List;
+
 import javax.annotation.concurrent.Immutable;
 
 import com.google.inject.Inject;
@@ -138,5 +140,35 @@ final class JdbiFeatureService implements FeatureService {
             logger.trace("inserted feature accession " + accession + " for feature id " + featureId);
         }
         return featureId;
+    }
+
+    @Override
+    public List<Feature> listFeatures(final String locus) {
+        checkNotNull(locus);
+        long locusId = featureDao.findLocusId(locus);
+        return featureDao.listFeaturesByLocus(locusId);
+    }
+
+    @Override
+    public List<Feature> listFeatures(final String locus,
+                                      final String term) {
+        checkNotNull(locus);
+        checkNotNull(term);
+        // todo: join in sql query
+        long locusId = featureDao.findLocusId(locus);
+        long termId = featureDao.findTermId(term);
+        return featureDao.listFeaturesByLocusAndTerm(locusId, termId);
+    }
+
+    @Override
+    public List<Feature> listFeatures(final String locus,
+                                      final String term,
+                                      final int rank) {
+        checkNotNull(locus);
+        checkNotNull(term);
+        checkArgument(rank > 0, "rank must be at least 1");
+        long locusId = featureDao.findLocusId(locus);
+        long termId = featureDao.findTermId(term);
+        return featureDao.listFeaturesByLocusTermAndRank(locusId, termId, rank);
     }
 }

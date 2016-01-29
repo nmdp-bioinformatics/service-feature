@@ -22,6 +22,8 @@
 */
 package org.nmdp.service.feature.service.jdbi;
 
+import java.util.List;
+
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
@@ -57,6 +59,18 @@ public interface FeatureDao extends Transactional<FeatureDao> {
     @Mapper(FeatureMapper.class)
     @SqlQuery("select l.name as locus, t.name as term, f.rank, f.accession, s.sequence as sequence from feature f, locus l, term t, sequence s where f.locus_id = l.locus_id and f.term_id = t.term_id and f.sequence_id = s.sequence_id and f.locus_id = :locusId and f.term_id = :termId and f.rank = :rank and f.sequence_id = :sequenceId")
     Feature findFeatureBySequenceId(@Bind("locusId") long locusId, @Bind("termId") long termId, @Bind("rank") int rank, @Bind("sequenceId") long sequenceId);
+
+    @Mapper(FeatureMapper.class)
+    @SqlQuery("select l.name as locus, t.name as term, f.rank, f.accession, s.sequence as sequence from feature f, locus l, term t, sequence s where f.locus_id = l.locus_id and f.term_id = t.term_id and f.sequence_id = s.sequence_id and f.locus_id = :locusId and f.term_id = t.term_id")
+    List<Feature> listFeaturesByLocus(@Bind("locusId") long locusId);
+
+    @Mapper(FeatureMapper.class)
+    @SqlQuery("select l.name as locus, t.name as term, f.rank, f.accession, s.sequence as sequence from feature f, locus l, term t, sequence s where f.locus_id = l.locus_id and f.term_id = t.term_id and f.sequence_id = s.sequence_id and f.locus_id = :locusId and f.term_id = :termId")
+    List<Feature> listFeaturesByLocusAndTerm(@Bind("locusId") long locusId, @Bind("termId") long termId);
+
+    @Mapper(FeatureMapper.class)
+    @SqlQuery("select l.name as locus, t.name as term, f.rank, f.accession, s.sequence as sequence from feature f, locus l, term t, sequence s where f.locus_id = l.locus_id and f.term_id = t.term_id and f.sequence_id = s.sequence_id and f.locus_id = :locusId and f.term_id = :termId and f.rank = :rank")
+    List<Feature> listFeaturesByLocusTermAndRank(@Bind("locusId") long locusId, @Bind("termId") long termId, @Bind("rank") int rank);
 
     @SqlQuery("select ifnull(max(accession),0)+1 from feature where locus_id = :locusId and term_id = :termId and rank = :rank")
     long nextAccession(@Bind("locusId") long locusId, @Bind("termId") long termId, @Bind("rank") int rank);

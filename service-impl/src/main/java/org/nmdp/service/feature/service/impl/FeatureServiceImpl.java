@@ -25,6 +25,8 @@ package org.nmdp.service.feature.service.impl;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -83,6 +85,48 @@ final class FeatureServiceImpl implements FeatureService {
             sequencesToFeatures.put(locus, term, rank, new SequencesToFeatures());
         }
         return sequencesToFeatures.get(locus, term, rank).createFeature(locus, term, rank, sequence);
+    }
+
+    @Override
+    public List<Feature> listFeatures(final String locus) {
+        checkNotNull(locus);
+        ArrayList<Feature> matchingFeatures = new ArrayList<Feature>();
+        for (Feature feature : features.values()) {
+            if (feature.getLocus().equals(locus)) {
+                matchingFeatures.add(feature);
+            }
+        }
+        return matchingFeatures;
+    }
+
+    @Override
+    public List<Feature> listFeatures(final String locus,
+                                      final String term) {
+        checkNotNull(locus);
+        checkNotNull(term);
+        ArrayList<Feature> matchingFeatures = new ArrayList<Feature>();
+        for (Feature feature : features.values()) {
+            if (feature.getLocus().equals(locus) && feature.getTerm().equals(term)) {
+                matchingFeatures.add(feature);
+            }
+        }
+        return matchingFeatures;
+    }
+
+    @Override
+    public List<Feature> listFeatures(final String locus,
+                                      final String term,
+                                      final int rank) {
+        checkNotNull(locus);
+        checkNotNull(term);
+        checkArgument(rank > 0, "rank must be at least 1");
+        ArrayList<Feature> matchingFeatures = new ArrayList<Feature>();
+        for (Feature feature : features.values()) {
+            if (feature.getLocus().equals(locus) && feature.getTerm().equals(term) && feature.getRank() == rank) {
+                matchingFeatures.add(feature);
+            }
+        }
+        return matchingFeatures;
     }
 
     /**

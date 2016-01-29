@@ -18,7 +18,6 @@ ENV LOGGING_LEVEL_DEFAULT=INFO \
 
 COPY config/database.yml /config/
 COPY feature-dropwizard.jar /feature/feature-dropwizard.jar
+COPY run.sh /feature/run.sh
 
-ENTRYPOINT ["java", "-jar", "/feature/feature-dropwizard.jar", "server"]
-
-CMD ["/config/database.yml"]
+CMD ["/feature/run.sh"]
