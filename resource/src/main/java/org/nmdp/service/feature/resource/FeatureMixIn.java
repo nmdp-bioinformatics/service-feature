@@ -37,6 +37,7 @@ public final class FeatureMixIn {
     public FeatureMixIn(final @JsonProperty("locus") String locus,
                         final @JsonProperty("term") String term,
                         final @JsonProperty("rank") int rank,
+                        final @JsonProperty("accession") long accession,                        
                         final @JsonProperty("sequence") String sequence) {
 
         // empty
