@@ -64,8 +64,8 @@ final class FeatureServiceImpl implements FeatureService {
                               final int rank,
                               final long accession) {
 
-        checkNotNull(locus);
-        checkNotNull(term);
+        checkNotNull(locus, "locus must be given");
+        checkNotNull(term, "term must be given");
         checkArgument(rank > 0, "rank must be at least 1");
         checkArgument(accession > 0L, "accession must be at least 1L");
         return features.get(locus, term, rank, accession);
@@ -77,10 +77,11 @@ final class FeatureServiceImpl implements FeatureService {
                                  final int rank,
                                  final String sequence) {
 
-        checkNotNull(locus);
-        checkNotNull(term);
+
+        checkNotNull(locus, "locus must be given");
+        checkNotNull(term, "term must be given");
         checkArgument(rank > 0, "rank must be at least 1");
-        checkNotNull(sequence);
+        checkNotNull(sequence, "sequence must be given");
         if (!sequencesToFeatures.containsKey(locus, term, rank)) {
             sequencesToFeatures.put(locus, term, rank, new SequencesToFeatures());
         }
@@ -89,7 +90,7 @@ final class FeatureServiceImpl implements FeatureService {
 
     @Override
     public List<Feature> listFeatures(final String locus) {
-        checkNotNull(locus);
+        checkNotNull(locus, "locus must be given");
         ArrayList<Feature> matchingFeatures = new ArrayList<Feature>();
         for (Feature feature : features.values()) {
             if (feature.getLocus().equals(locus)) {
@@ -102,8 +103,8 @@ final class FeatureServiceImpl implements FeatureService {
     @Override
     public List<Feature> listFeatures(final String locus,
                                       final String term) {
-        checkNotNull(locus);
-        checkNotNull(term);
+        checkNotNull(locus, "locus must be given");
+        checkNotNull(term, "term must be given");
         ArrayList<Feature> matchingFeatures = new ArrayList<Feature>();
         for (Feature feature : features.values()) {
             if (feature.getLocus().equals(locus) && feature.getTerm().equals(term)) {
@@ -117,8 +118,8 @@ final class FeatureServiceImpl implements FeatureService {
     public List<Feature> listFeatures(final String locus,
                                       final String term,
                                       final int rank) {
-        checkNotNull(locus);
-        checkNotNull(term);
+        checkNotNull(locus, "locus must be given");
+        checkNotNull(term, "term must be given");
         checkArgument(rank > 0, "rank must be at least 1");
         ArrayList<Feature> matchingFeatures = new ArrayList<Feature>();
         for (Feature feature : features.values()) {

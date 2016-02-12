@@ -66,42 +66,42 @@ public final class FeatureResourceTest {
     }
 
     @Test
-    public void testGetFeatureByQuery() {
+    public void testGetFeatureByQuery() throws UserInputException {
         when(featureService.getFeature("locus", "term", 2, 42L)).thenReturn(feature);
         assertEquals(feature, featureResource.getFeatureByQuery("locus", "term", 2, 42L));
     }
 
     @Test
-    public void testGetFeatureByQueryMiss() {
+    public void testGetFeatureByQueryMiss() throws UserInputException {
         when(featureService.getFeature("locus", "term", 2, 42L)).thenReturn(null);
         // todo: this should throw a 404
         assertNull(featureResource.getFeatureByQuery("locus", "term", 2, 42L));
     }
 
     @Test
-    public void testGetFeatureByPath() {
+    public void testGetFeatureByPath() throws UserInputException {
         when(featureService.getFeature("locus", "term", 2, 42L)).thenReturn(feature);
         assertEquals(feature, featureResource.getFeatureByPath("locus", "term", 2, 42L));
     }
 
     @Test
-    public void testGetFeatureByPathMiss() {
+    public void testGetFeatureByPathMiss() throws UserInputException {
         when(featureService.getFeature("locus", "term", 2, 42L)).thenReturn(null);
         assertNull(featureResource.getFeatureByPath("locus", "term", 2, 42L));
     }
 
-    @Test(expected=NullPointerException.class)
-    public void testCreateFeatureNullFeatureRequest() {
+    @Test(expected=UserInputException.class)
+    public void testCreateFeatureNullFeatureRequest() throws UserInputException {
         featureResource.createFeature(null);
     }
 
     @Test
-    public void testCreateFeatureNullSequence() {
+    public void testCreateFeatureNullSequence() throws UserInputException {
         assertNull(featureResource.createFeature(new FeatureRequest("locus", "term", 2, null)));
     }
 
     @Test
-    public void testCreateFeatureValidSequence() {
+    public void testCreateFeatureValidSequence() throws UserInputException {
         when(featureService.createFeature("locus", "term", 2, "ACGT")).thenReturn(feature);
         assertEquals(feature, featureResource.createFeature(new FeatureRequest("locus", "term", 2, "ACGT")));
     }

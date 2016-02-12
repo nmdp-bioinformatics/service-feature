@@ -58,8 +58,8 @@ final class JdbiFeatureService implements FeatureService {
                               final int rank,
                               final long accession) {
 
-        checkNotNull(locus);
-        checkNotNull(term);
+        checkNotNull(locus, "locus must be given");
+        checkNotNull(term, "term must be given");
         checkArgument(rank > 0, "rank must be at least 1");
         checkArgument(accession > 0L, "accession must be at least 1L");
 
@@ -78,10 +78,10 @@ final class JdbiFeatureService implements FeatureService {
                                  final int rank,
                                  final String sequence) {
 
-        checkNotNull(locus);
-        checkNotNull(term);
+        checkNotNull(locus, "locus must be given");
+        checkNotNull(term, "term must be given");
         checkArgument(rank > 0, "rank must be at least 1");
-        checkNotNull(sequence);
+        checkNotNull(sequence, "sequence must be given");
 
         long locusId = featureDao.findLocusId(locus);
         long termId = featureDao.findTermId(term);
@@ -144,7 +144,7 @@ final class JdbiFeatureService implements FeatureService {
 
     @Override
     public List<Feature> listFeatures(final String locus) {
-        checkNotNull(locus);
+        checkNotNull(locus, "locus must be given");
         long locusId = featureDao.findLocusId(locus);
         return featureDao.listFeaturesByLocus(locusId);
     }
@@ -152,8 +152,8 @@ final class JdbiFeatureService implements FeatureService {
     @Override
     public List<Feature> listFeatures(final String locus,
                                       final String term) {
-        checkNotNull(locus);
-        checkNotNull(term);
+        checkNotNull(locus, "locus must be given");
+        checkNotNull(term, "term must be given");
         // todo: join in sql query
         long locusId = featureDao.findLocusId(locus);
         long termId = featureDao.findTermId(term);
@@ -164,8 +164,8 @@ final class JdbiFeatureService implements FeatureService {
     public List<Feature> listFeatures(final String locus,
                                       final String term,
                                       final int rank) {
-        checkNotNull(locus);
-        checkNotNull(term);
+        checkNotNull(locus, "locus must be given");
+        checkNotNull(term, "term must be given");
         checkArgument(rank > 0, "rank must be at least 1");
         long locusId = featureDao.findLocusId(locus);
         long termId = featureDao.findTermId(term);
