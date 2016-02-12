@@ -33,6 +33,6 @@ public final class FeatureMixInTest {
 
     @Test
     public void testConstructor() {
-        assertNotNull(new FeatureMixIn("locus", "term", 2, "ACTG"));
+        assertNotNull(new FeatureMixIn("locus", "term", 2, 1, "ACTG"));
     }
 }
