@@ -1,0 +1,131 @@
+#!/usr/bin/perl
+##############################################################################
+# SCRIPT NAME:	mk_requests_kir
+# DESCRIPTION:	extract features from KIR.dat
+#
+# DATE WRITTEN: 2016-02-12
+# WRITTEN BY:   Martin Maiers
+#
+##############################################################################
+use strict;    # always
+use warnings;  # or else
+
+
+my $requests= "requests.txt";
+open REQUESTS, ">$requests" or die "$!: $requests";
+
+#
+# donload ENA formatted KIR.dat from IPD kir
+#
+my $file = "./KIR.dat.txt";
+open FILE, $file or die "$!: $file";
+
+
+my %K;
+my $ac = "";
+my $de = "";
+my $state = "";
+my $start = "";
+my $stop = "";
+my $intron;
+my $exon;
+my $UTR;
+my $seq;
+
+while(<FILE>) {
+  chomp;
+  
+  next unless /^( |AC|DE|FT)/;
+  if (/^ /) {
+    $K{$ac}{seq}.= $1 if /([actg ]+)/;
+    $K{$ac}{seq}=~s/ //g;
+
+  }
+   
+  if (/^AC   (\S+);/) {
+    $seq = "";
+    $ac = $1; 
+    $intron=1; 
+    $exon=1; 
+    $UTR=1; 
+    $start=1; 
+    $stop=1; 
+  }
+  if (/^DE   (\S+),/) {
+    $K{$ac}{de} = $1;
+  }
+
+  if ($state eq "intron") {
+    $intron = $1 if /(\d+)/;
+    $state = "";
+    $K{$ac}{"intron$intron"}{start} = $start;
+    $K{$ac}{"intron$intron"}{stop}   = $stop;
+  }
+  if ($state eq "exon") {
+    $exon = $1 if /(\d+)/;
+    $state = "";
+    $K{$ac}{"exon$exon"}{start} = $start;
+    $K{$ac}{"exon$exon"}{stop}   = $stop;
+  }
+
+  if(/^FT   UTR\s+(\d+)\.\.(\d+)/) {
+    $start = $1;
+    $stop  = $2;
+    $K{$ac}{"UTR$UTR"}{start}  = $start;
+    $K{$ac}{"UTR$UTR"}{stop}   = $stop;
+    $UTR++;
+  }
+  if(/^FT   exon\s+(\d+)\.\.(\d+)/) {
+    $state = "exon";
+    $start = $1;
+    $stop  = $2;
+  }
+  if(/^FT   intron\s+(\d+)\.\.(\d+)/) {
+    $state = "intron";
+    $start = $1;
+    $stop  = $2;
+  }
+}
+
+foreach my $ac (sort keys %K) {
+  foreach my $term (sort keys %{$K{$ac}}) {
+    next unless $term =~/^(exon|intron|UTR)/;
+    my $seq = $K{$ac}{seq};
+    my $start = $K{$ac}{$term}{start};
+    my $stop = $K{$ac}{$term}{stop};
+    #print $seq, "\n";
+    my $loc = (split /\*/, $K{$ac}{de})[0];
+  
+
+    my $t;
+    my $r;
+
+    if ($term=~/(\D+)(\d+)/) {
+      $t= $1;
+      $r= $2;
+      if ($t eq "UTR" && $r eq "1") {
+
+        # need to address the case where there is only a 3' UTR
+        if ($start eq "1") {
+          $t = 'five_prime_UTR';
+        } else {
+          $t = 'three_prime_UTR';
+        }
+      }
+      if ($t eq "UTR" && $r eq "2") {
+        $t = 'three_prime_UTR';
+      }
+    }
+    my $sequence = uc substr($seq, $start, ($stop-$start+1));
+  
+    print REQUESTS join ('	', $loc, $t, $r, $sequence), "\n";
+
+    print join ('	', 
+	$ac,
+	$K{$ac}{de}, $term, $K{$ac}{$term}{start}, $K{$ac}{$term}{stop},
+        $sequence), "\n";
+
+  }
+}
+exit 0;
+
