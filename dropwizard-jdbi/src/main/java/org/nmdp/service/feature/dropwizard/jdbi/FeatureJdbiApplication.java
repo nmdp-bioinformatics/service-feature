@@ -34,8 +34,6 @@ import com.wordnik.swagger.config.SwaggerConfig;
 
 import com.wordnik.swagger.model.ApiInfo;
 
-import io.dropwizard.Application;
-
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.jdbi.DBIFactory;
@@ -50,6 +48,8 @@ import org.nmdp.service.common.dropwizard.CommonServiceApplication;
 
 import org.nmdp.service.feature.Feature;
 
+import org.nmdp.service.feature.resource.UserInputExceptionMapper;
+import org.nmdp.service.feature.resource.ExceptionMapperModule;
 import org.nmdp.service.feature.service.jdbi.FeatureDao;
 import org.nmdp.service.feature.service.jdbi.JdbiFeatureServiceModule;
 
@@ -84,7 +84,8 @@ public final class FeatureJdbiApplication extends CommonServiceApplication<Featu
         final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "mysql");
         final FeatureDao featureDao = jdbi.onDemand(FeatureDao.class);
 
-        Injector injector = Guice.createInjector(new JdbiFeatureServiceModule(), new AbstractModule() {
+        Injector injector = Guice.createInjector(new JdbiFeatureServiceModule(), new ExceptionMapperModule(),
+            new AbstractModule() {
                 @Override
                 protected void configure() {
                     bind(FeatureDao.class).toInstance(featureDao);
@@ -94,6 +95,7 @@ public final class FeatureJdbiApplication extends CommonServiceApplication<Featu
         environment.healthChecks().register("database", new DBIHealthCheck(jdbi, "select 1"));
 
         environment.jersey().register(injector.getInstance(FeatureResource.class));
+        environment.jersey().register(injector.getInstance(UserInputExceptionMapper.class));
 
         environment.getObjectMapper()
             .enable(SerializationFeature.INDENT_OUTPUT)

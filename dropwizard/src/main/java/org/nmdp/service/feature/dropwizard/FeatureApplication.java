@@ -28,15 +28,12 @@ import javax.annotation.concurrent.Immutable;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import com.wordnik.swagger.config.SwaggerConfig;
 
 import com.wordnik.swagger.model.ApiInfo;
-
-import io.dropwizard.Application;
 
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -45,6 +42,8 @@ import org.nmdp.service.common.dropwizard.CommonServiceApplication;
 
 import org.nmdp.service.feature.Feature;
 
+import org.nmdp.service.feature.resource.UserInputExceptionMapper;
+import org.nmdp.service.feature.resource.ExceptionMapperModule;
 import org.nmdp.service.feature.service.impl.FeatureServiceModule;
 
 import org.nmdp.service.feature.resource.FeatureMixIn;
@@ -68,7 +67,7 @@ public final class FeatureApplication extends CommonServiceApplication<FeatureCo
 
     @Override
     public void runService(final FeatureConfiguration configuration, final Environment environment) throws Exception {
-        Injector injector = Guice.createInjector(new FeatureServiceModule());
+        Injector injector = Guice.createInjector(new FeatureServiceModule(), new ExceptionMapperModule());
 
         environment.healthChecks().register("feature", new HealthCheck() {
                 @Override
@@ -78,6 +77,7 @@ public final class FeatureApplication extends CommonServiceApplication<FeatureCo
             });
 
         environment.jersey().register(injector.getInstance(FeatureResource.class));
+        environment.jersey().register(injector.getInstance(UserInputExceptionMapper.class));
 
         environment.getObjectMapper()
             .enable(SerializationFeature.INDENT_OUTPUT)
