@@ -41,7 +41,13 @@ import javax.ws.rs.core.MediaType;
 
 import com.google.inject.Inject;
 
-import com.wordnik.swagger.annotations.*;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiImplicitParam;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import org.nmdp.service.feature.Feature;
 
 import org.nmdp.service.feature.service.FeatureService;
@@ -86,7 +92,8 @@ public final class FeatureResource {
             checkNotNull(term, "term must be provided");
             checkArgument(rank > 0, "rank must be provided and at least 1");
             checkArgument(accession > 0L, "accession must be provided and at least 1");
-        }catch (Exception ex){
+        }
+        catch (Exception ex) {
             throw new UserInputException(ex.getMessage(), ex);
         }
 
@@ -107,7 +114,8 @@ public final class FeatureResource {
     public Feature createFeature(final FeatureRequest featureRequest) throws UserInputException {
         try {
             checkNotNull(featureRequest, "a request body must be provided");
-        }catch (NullPointerException ex){
+        }
+        catch (NullPointerException ex) {
             throw new UserInputException(ex.getMessage(), ex);
         }
 
@@ -126,7 +134,8 @@ public final class FeatureResource {
     public List<Feature> listFeatures(final @PathParam("locus") @ApiParam("locus name or URI") String locus) throws UserInputException {
         try {
             checkNotNull(locus, "locus must be provided");
-        }catch (NullPointerException ex){
+        }
+        catch (NullPointerException ex) {
             throw new UserInputException(ex.getMessage(), ex);
         }
         return featureService.listFeatures(locus);
@@ -145,7 +154,8 @@ public final class FeatureResource {
         try {
             checkNotNull(locus, "locus must be provided");
             checkNotNull(term, "term must be provided");
-        }catch (NullPointerException ex){
+        }
+        catch (NullPointerException ex) {
             throw new UserInputException(ex.getMessage(), ex);
         }
 
@@ -167,7 +177,8 @@ public final class FeatureResource {
             checkNotNull(locus, "locus must be provided");
             checkNotNull(term, "term must be provided");
             checkArgument(rank > 0, "rank must be provided and at least 1");
-        }catch (Exception ex){
+        }
+        catch (Exception ex) {
             throw new UserInputException(ex.getMessage(), ex);
         }
 
@@ -193,7 +204,8 @@ public final class FeatureResource {
             checkNotNull(term, "term must be provided");
             checkArgument(rank > 0, "rank must be provided and at least 1");
             checkArgument(accession > 0L, "accession must be provided and at least 1");
-        }catch (Exception ex){
+        }
+        catch (Exception ex) {
             throw new UserInputException(ex.getMessage(), ex);
         }
         return featureService.getFeature(locus, term, rank, accession);
