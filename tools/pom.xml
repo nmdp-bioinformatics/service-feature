@@ -106,6 +106,10 @@
           <installArtifacts>false</installArtifacts>
           <programs>
             <program>
+              <id>feature-export-fasta</id>
+              <mainClass>org.nmdp.service.feature.tools.FeatureExportFasta</mainClass>
+            </program>
+            <program>
               <id>feature-tools</id>
               <mainClass>org.nmdp.service.feature.tools.FeatureTools</mainClass>
             </program>

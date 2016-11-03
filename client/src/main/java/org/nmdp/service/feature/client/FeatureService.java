@@ -22,12 +22,15 @@
 */
 package org.nmdp.service.feature.client;
 
+import java.util.List;
+
 import org.nmdp.service.feature.Feature;
 
 import org.nmdp.service.feature.resource.FeatureRequest;
 
 import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.Path;
 import retrofit.http.POST;
 import retrofit.http.Query;
 
@@ -49,4 +52,16 @@ public interface FeatureService {
 
     @POST("/features")
     Observable<Feature> createFeatureObservable(@Body FeatureRequest featureRequest);
+
+    @GET("/features/{locus}")
+    List<Feature> listFeatures(@Path("locus") String locus);
+
+    @GET("/features/{locus}/{term}")
+    List<Feature> listFeatures(@Path("locus") String locus,
+                               @Path("term") String term);
+
+    @GET("/features/{locus}/{term}/{rank}")
+    List<Feature> listFeatures(@Path("locus") String locus,
+                               @Path("term") String term,
+                               @Path("rank") int rank);
 }
