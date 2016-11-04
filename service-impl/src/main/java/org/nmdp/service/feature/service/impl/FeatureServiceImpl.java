@@ -44,6 +44,7 @@ import org.dishevelled.multimap.impl.QuaternaryKeyMaps;
 
 import org.nmdp.service.feature.Feature;
 
+import org.nmdp.service.feature.service.DnaAlphabet;
 import org.nmdp.service.feature.service.FeatureService;
 
 /**
@@ -82,6 +83,7 @@ final class FeatureServiceImpl implements FeatureService {
         checkNotNull(term, "term must be given");
         checkArgument(rank > 0, "rank must be at least 1");
         checkNotNull(sequence, "sequence must be given");
+        checkArgument(DnaAlphabet.isDna(sequence), "sequence must use DNA alphabet [A,C,T,G]");
         if (!sequencesToFeatures.containsKey(locus, term, rank)) {
             sequencesToFeatures.put(locus, term, rank, new SequencesToFeatures());
         }
