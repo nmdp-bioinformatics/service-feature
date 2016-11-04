@@ -1,6 +1,6 @@
 /*
 
-    feature-service-impl  Feature service impl.
+    feature-service  Feature service.
     Copyright (c) 2014-2015 National Marrow Donor Program (NMDP)
 
     This library is free software; you can redistribute it and/or modify it
@@ -20,25 +20,25 @@
     > http://www.gnu.org/licenses/lgpl.html
 
 */
-package org.nmdp.service.feature.service.impl;
+package org.nmdp.service.feature.service;
 
-import org.nmdp.service.feature.service.AbstractFeatureServiceTest;
-import org.nmdp.service.feature.service.FeatureService;
-
-import org.junit.Test;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
- * Unit test for FeatureServiceImpl.
+ * DNA alphabet.
  */
-public final class FeatureServiceImplTest extends AbstractFeatureServiceTest {
+public final class DnaAlphabet {
+    private static final Pattern DNA = Pattern.compile("^[ACTG]*$");
 
-    @Override
-    protected FeatureService createFeatureService() {
-        return new FeatureServiceImpl();
-    }
-
-    @Test(expected=IllegalArgumentException.class)
-    public void testCreateFeatureInvalidSequence() {
-        featureService.createFeature("locus", "term", 1, "not dna");
+    /**
+     * Return true if the specified sequence contains only members of the DNA alphabet [A,C,T,G].
+     *
+     * @param sequence sequence
+     * @return true if the specified sequence contains only members of the DNA alphabet [A,C,T,G]
+     */
+    public static boolean isDna(final String sequence) {
+        Matcher matcher = DNA.matcher(sequence);
+        return matcher.matches();
     }
 }

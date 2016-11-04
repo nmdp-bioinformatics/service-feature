@@ -50,4 +50,9 @@ public final class JdbiFeatureServiceTest extends AbstractFeatureServiceTest {
     protected FeatureService createFeatureService() {
         return new JdbiFeatureService(featureDao);
     }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testCreateFeatureInvalidSequence() {
+        featureService.createFeature("locus", "term", 1, "not dna");
+    }
 }

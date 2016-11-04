@@ -33,6 +33,7 @@ import com.google.inject.Inject;
 
 import org.nmdp.service.feature.Feature;
 
+import org.nmdp.service.feature.service.DnaAlphabet;
 import org.nmdp.service.feature.service.FeatureService;
 
 import org.slf4j.Logger;
@@ -82,6 +83,7 @@ final class JdbiFeatureService implements FeatureService {
         checkNotNull(term, "term must be given");
         checkArgument(rank > 0, "rank must be at least 1");
         checkNotNull(sequence, "sequence must be given");
+        checkArgument(DnaAlphabet.isDna(sequence), "sequence must use DNA alphabet [A,C,T,G]");
 
         long locusId = featureDao.findLocusId(locus);
         long termId = featureDao.findTermId(term);

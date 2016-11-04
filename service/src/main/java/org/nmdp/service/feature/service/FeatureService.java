@@ -49,7 +49,7 @@ public interface FeatureService {
      * @param locus locus, must not be null
      * @param term term, must not be null
      * @param rank rank, must be at least <code>1</code>
-     * @param sequence sequence, must not be null
+     * @param sequence sequence, in DNA alphabet, must not be null
      * @return the feature for the specified locus, term, rank, and sequence
      */
     Feature createFeature(String locus, String term, int rank, String sequence);
