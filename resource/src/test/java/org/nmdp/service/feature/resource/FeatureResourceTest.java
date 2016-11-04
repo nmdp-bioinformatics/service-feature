@@ -65,6 +65,26 @@ public final class FeatureResourceTest {
         assertNotNull(featureResource);
     }
 
+    @Test(expected=UserInputException.class)
+    public void testGetFeatureByQueryNullLocus() throws UserInputException {
+        featureResource.getFeatureByQuery(null, "term", 2, 42L);
+    }
+
+    @Test(expected=UserInputException.class)
+    public void testGetFeatureByQueryNullLTerm() throws UserInputException {
+        featureResource.getFeatureByQuery("locus", null, 2, 42L);
+    }
+
+    @Test(expected=UserInputException.class)
+    public void testGetFeatureByQueryInvalidRank() throws UserInputException {
+        featureResource.getFeatureByQuery("locus", "term", -1, 42L);
+    }
+
+    @Test(expected=UserInputException.class)
+    public void testGetFeatureByQueryInvalidAccession() throws UserInputException {
+        featureResource.getFeatureByQuery("locus", "term", 2, -1);
+    }
+
     @Test
     public void testGetFeatureByQuery() throws UserInputException {
         when(featureService.getFeature("locus", "term", 2, 42L)).thenReturn(feature);
@@ -76,6 +96,16 @@ public final class FeatureResourceTest {
         when(featureService.getFeature("locus", "term", 2, 42L)).thenReturn(null);
         // todo: this should throw a 404
         assertNull(featureResource.getFeatureByQuery("locus", "term", 2, 42L));
+    }
+
+    @Test(expected=UserInputException.class)
+    public void testGetFeatureByPathInvalidRank() throws UserInputException {
+        featureResource.getFeatureByPath("locus", "term", -1, 42L);
+    }
+
+    @Test(expected=UserInputException.class)
+    public void testGetFeatureByPathInvalidAccession() throws UserInputException {
+        featureResource.getFeatureByPath("locus", "term", 2, -1L);
     }
 
     @Test
@@ -104,5 +134,10 @@ public final class FeatureResourceTest {
     public void testCreateFeatureValidSequence() throws UserInputException {
         when(featureService.createFeature("locus", "term", 2, "ACGT")).thenReturn(feature);
         assertEquals(feature, featureResource.createFeature(new FeatureRequest("locus", "term", 2, "ACGT")));
+    }
+
+    @Test(expected=UserInputException.class)
+    public void testListFeaturesLocusTermRankInvalidRank() throws UserInputException {
+        featureResource.listFeatures("locus", "term", -1);
     }
 }
