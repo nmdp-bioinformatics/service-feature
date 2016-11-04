@@ -128,37 +128,15 @@ public final class FeatureResource {
     @GET
     @Path("{locus}")
     @ApiOperation(value="List the enumerated sequence features at a locus", response=Feature.class, responseContainer="List")
-    @ApiResponses(value = {
-            @ApiResponse(code=400, message="locus must be provided"),
-    })
-    public List<Feature> listFeatures(final @PathParam("locus") @ApiParam("locus name or URI") String locus) throws UserInputException {
-        try {
-            checkNotNull(locus, "locus must be provided");
-        }
-        catch (NullPointerException ex) {
-            throw new UserInputException(ex.getMessage(), ex);
-        }
+    public List<Feature> listFeatures(final @PathParam("locus") @ApiParam("locus name or URI") String locus) {
         return featureService.listFeatures(locus);
     }
 
     @GET
     @Path("{locus}/{term}")
     @ApiOperation(value="List the enumerated sequence features matching a term at a locus", response=Feature.class, responseContainer="List")
-    @ApiResponses(value = {
-            @ApiResponse(code=400, message="locus must be provided"),
-            @ApiResponse(code=400, message="term must be provided"),
-    })
     public List<Feature> listFeatures(final @PathParam("locus") @ApiParam("locus name or URI") String locus,
-                                      final @PathParam("term") @ApiParam("Sequence Ontology (SO) term name, accession, or URI") String term)
-            throws UserInputException {
-        try {
-            checkNotNull(locus, "locus must be provided");
-            checkNotNull(term, "term must be provided");
-        }
-        catch (NullPointerException ex) {
-            throw new UserInputException(ex.getMessage(), ex);
-        }
-
+                                      final @PathParam("term") @ApiParam("Sequence Ontology (SO) term name, accession, or URI") String term) {
         return featureService.listFeatures(locus, term);
     }
 
@@ -166,22 +144,19 @@ public final class FeatureResource {
     @Path("{locus}/{term}/{rank}")
     @ApiOperation(value="List the enumerated sequence features matching a term and rank at a locus", response=Feature.class, responseContainer="List")
     @ApiResponses(value = {
-            @ApiResponse(code=400, message="locus must be provided"),
-            @ApiResponse(code=400, message="term must be provided"),
-            @ApiResponse(code=400, message="rank must be provided and at least 1"),
+            @ApiResponse(code=400, message="rank must be at least 1"),
     })
     public List<Feature> listFeatures(final @PathParam("locus") @ApiParam("locus name or URI") String locus,
                                       final @PathParam("term") @ApiParam("Sequence Ontology (SO) term name, accession, or URI") String term,
-                                      final @PathParam("rank") @ApiParam("feature rank, must be at least 1") int rank) throws UserInputException {
+                                      final @PathParam("rank") @ApiParam("feature rank, must be at least 1") int rank)
+        throws UserInputException {
+
         try {
-            checkNotNull(locus, "locus must be provided");
-            checkNotNull(term, "term must be provided");
-            checkArgument(rank > 0, "rank must be provided and at least 1");
+            checkArgument(rank > 0, "rank must be at least 1");
         }
         catch (Exception ex) {
             throw new UserInputException(ex.getMessage(), ex);
         }
-
         return featureService.listFeatures(locus, term, rank);
     }
 
@@ -189,21 +164,18 @@ public final class FeatureResource {
     @Path("{locus}/{term}/{rank}/{accession}")
     @ApiOperation(value="Retrieve an enumerated sequence feature", response=Feature.class)
     @ApiResponses(value = {
-            @ApiResponse(code=400, message="locus must be provided"),
-            @ApiResponse(code=400, message="term must be provided"),
-            @ApiResponse(code=400, message="rank must be provided and at least 1"),
-            @ApiResponse(code=400, message="accession must be provided and at least 1"),
+            @ApiResponse(code=400, message="rank must be at least 1"),
+            @ApiResponse(code=400, message="accession must be at least 1"),
     })
     public Feature getFeatureByPath(final @PathParam("locus") @ApiParam("locus name or URI") String locus,
                                     final @PathParam("term") @ApiParam("Sequence Ontology (SO) term name, accession, or URI") String term,
                                     final @PathParam("rank") @ApiParam("feature rank, must be at least 1") int rank,
-                                    final @PathParam("accession") @ApiParam("accession, must be at least 1") long accession) throws UserInputException {
+                                    final @PathParam("accession") @ApiParam("accession, must be at least 1") long accession)
+        throws UserInputException {
 
         try {
-            checkNotNull(locus, "locus must be provided");
-            checkNotNull(term, "term must be provided");
-            checkArgument(rank > 0, "rank must be provided and at least 1");
-            checkArgument(accession > 0L, "accession must be provided and at least 1");
+            checkArgument(rank > 0, "rank must be at least 1");
+            checkArgument(accession > 0L, "accession must be at least 1");
         }
         catch (Exception ex) {
             throw new UserInputException(ex.getMessage(), ex);
