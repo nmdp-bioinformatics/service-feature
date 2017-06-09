@@ -20,7 +20,7 @@ featuredb:
   # If using Docker Toolbox, ssh into your vm and make a /data directory
   # before using this docker-compose file.
   volumes:
-    - /data:/var/lib/mysql
+    - data:/var/lib/mysql
 
 phpmyadmin:
   image: phpmyadmin/phpmyadmin
@@ -30,6 +30,6 @@ phpmyadmin:
      PMA_HOST=featuredb
   restart: always
   ports:
-   - 8080:8080
+   - 8080:80
   links:
   - featuredb:db

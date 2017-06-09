@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.nmdp.service</groupId>
     <artifactId>feature-multimodule</artifactId>
-    <version>1.0.6-SNAPSHOT</version>
+    <version>1.0.9-SNAPSHOT</version>
   </parent>
   <artifactId>feature-service-impl</artifactId>
   <name>feature-service-impl</name>
