@@ -6,7 +6,7 @@ Enumerated sequence feature service.
 [![Build Status](https://travis-ci.org/nmdp-bioinformatics/service-feature.svg?branch=master)](https://travis-ci.org/nmdp-bioinformatics/service-feature)
 
 
-###Hacking service-feature
+### Hacking service-feature
 
 Install
 
@@ -16,3 +16,7 @@ Install
 To build
 
     $ mvn install
+
+Documentation
+
+[Wiki](https://github.com/nmdp-bioinformatics/service-feature/wiki) has extensive documentation on usage and deployment.

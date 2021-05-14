@@ -21,79 +21,84 @@
     > http://www.gnu.org/licenses/lgpl.html
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.nmdp.service</groupId>
-    <artifactId>service-parent</artifactId>
-    <version>2</version>
-  </parent>
-  <groupId>org.nmdp.service</groupId>
-  <artifactId>feature-multimodule</artifactId>
-  <version>1.0.9-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>feature-multimodule</name>
-  <url>https://github.com/nmdp-bioinformatics/service-feature</url>
-  <description>Enumerated sequence feature service.</description>
-  <inceptionYear>2014</inceptionYear>
-  <scm>
-    <connection>scm:git:git@github.com:nmdp-bioinformatics/service-feature.git</connection>
-    <developerConnection>scm:git:git@github.com:nmdp-bioinformatics/service-feature.git</developerConnection>
-    <url>git@github.com:nmdp-bioinformatics/service-feature.git</url>
-  </scm>
-  <licenses>
-    <license>
-      <name>GNU Lesser General Public License (LGPL)</name>
-      <url>http://www.gnu.org/licenses/lgpl.html</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  <developers>
-    <developer>
-      <id>mheuer-nmdp</id>
-      <name>Michael Heuer (NMDP)</name>
-    </developer>
-  </developers>
-  <modules>
-    <module>domain</module>
-    <module>service</module>
-    <module>service-impl</module>
-    <module>service-jdbi</module>
-    <module>resource</module>
-    <module>dropwizard</module>
-    <module>dropwizard-jdbi</module>
-    <module>client</module>
-    <module>tools</module>
-  </modules>
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-        <version>5.1.35</version>
-      </dependency>
-      <dependency>
-        <groupId>org.dishevelled</groupId>
-        <artifactId>dsh-compress</artifactId>
-        <version>1.1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.dishevelled</groupId>
-        <artifactId>dsh-commandline</artifactId>
-        <version>1.1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.dishevelled</groupId>
-        <artifactId>dsh-multi-map</artifactId>
-        <version>1.0</version>
-      </dependency>
-      <dependency>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
         <groupId>org.nmdp.service</groupId>
-        <artifactId>common-dropwizard</artifactId>
-        <version>1.0</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+        <artifactId>service-parent</artifactId>
+        <version>2</version>
+    </parent>
+    <artifactId>feature-multimodule</artifactId>
+    <version>1.0.9-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>feature-multimodule</name>
+    <url>https://github.com/nmdp-bioinformatics/service-feature</url>
+    <description>Enumerated sequence feature service.</description>
+    <inceptionYear>2014</inceptionYear>
+    <scm>
+        <connection>
+            scm:git:git@github.com:nmdp-bioinformatics/service-feature.git
+        </connection>
+        <developerConnection>
+            scm:git:git@github.com:nmdp-bioinformatics/service-feature.git
+        </developerConnection>
+        <url>git@github.com:nmdp-bioinformatics/service-feature.git</url>
+    </scm>
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License (LGPL)</name>
+            <url>http://www.gnu.org/licenses/lgpl.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>mheuer-nmdp</id>
+            <name>Michael Heuer (NMDP)</name>
+        </developer>
+    </developers>
+    <modules>
+        <module>domain</module>
+        <module>service</module>
+        <module>service-impl</module>
+        <module>service-jdbi</module>
+        <module>resource</module>
+        <module>dropwizard</module>
+        <module>dropwizard-jdbi</module>
+        <module>client</module>
+        <module>tools</module>
+    </modules>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.1.49</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dishevelled</groupId>
+                <artifactId>dsh-compress</artifactId>
+                <version>1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dishevelled</groupId>
+                <artifactId>dsh-commandline</artifactId>
+                <version>1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dishevelled</groupId>
+                <artifactId>dsh-multi-map</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.nmdp.service</groupId>
+                <artifactId>common-dropwizard</artifactId>
+                <version>1.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
 
 

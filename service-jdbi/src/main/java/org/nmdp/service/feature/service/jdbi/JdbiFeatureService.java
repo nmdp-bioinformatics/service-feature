@@ -22,22 +22,19 @@
 */
 package org.nmdp.service.feature.service.jdbi;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.util.List;
-
-import javax.annotation.concurrent.Immutable;
-
 import com.google.inject.Inject;
-
 import org.nmdp.service.feature.Feature;
-
 import org.nmdp.service.feature.service.DnaAlphabet;
 import org.nmdp.service.feature.service.FeatureService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.annotation.concurrent.Immutable;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * JDBI feature service.
@@ -46,6 +43,8 @@ import org.slf4j.LoggerFactory;
 final class JdbiFeatureService implements FeatureService {
     private final FeatureDao featureDao;
     private static final Logger logger = LoggerFactory.getLogger(JdbiFeatureService.class);
+
+    private static final int MAX_INSERT_FEATURE_TRIES = 10;
 
     @Inject
     JdbiFeatureService(final FeatureDao featureDao) {
@@ -111,7 +110,30 @@ final class JdbiFeatureService implements FeatureService {
         if (logger.isTraceEnabled()) {
             logger.trace("next accession locusId " + locusId + " termId " + termId + " rank " + rank);
         }
-        long featureId = insertFeature(locusId, termId, rank, accession, sequenceId);
+
+        int insertTries = 0;
+        long featureId = 0;
+        do {
+            insertTries++;
+            try {
+                featureId = insertFeature(locusId, termId, rank, accession, sequenceId);
+            } catch (RuntimeException se) {
+                if (se.getCause() instanceof SQLIntegrityConstraintViolationException) {
+                    logger.warn(se.getCause().getMessage());
+                    // Try next accession number
+                    accession = featureDao.nextAccession(locusId, termId, rank);
+                    logger.info("Retrying with a new accession number");
+                    // Give up after trying for MAX_INSERT_FEATURE_TRIES
+                    if (insertTries == MAX_INSERT_FEATURE_TRIES) {
+                        logger.warn("Giving up after " + MAX_INSERT_FEATURE_TRIES +
+                                " tries to get a new accession number");
+                        throw se;
+                    }
+                } else {
+                    throw se;
+                }
+            }
+        } while (featureId < 1);
 
         if (logger.isTraceEnabled()) {
             logger.trace("finding feature by featureId " + featureId);

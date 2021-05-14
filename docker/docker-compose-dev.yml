@@ -17,13 +17,11 @@ featuredb:
   environment:
     MYSQL_DATABASE: feature
     MYSQL_ROOT_PASSWORD: supersecretpwd
-  # If using Docker Toolbox, ssh into your vm and make a /data directory
-  # before using this docker-compose file.
   volumes:
     - data:/var/lib/mysql
 
 phpmyadmin:
-  image: phpmyadmin/phpmyadmin
+  image: phpmyadmin/phpmyadmin:5.1
   container_name: myadmin
   environment:
    - PMA_ARBITRARY=1

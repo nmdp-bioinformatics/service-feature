@@ -33,8 +33,8 @@ create table if not exists `feature` (
   `sequence_id` bigint not null,
   `accession` bigint not null,
   primary key (`feature_id`),
-  index (`locus_id`,`term_id`,`rank`,`accession`),
-  index (`locus_id`,`term_id`,`rank`,`sequence_id`),
+  unique key `unique_feature` (`locus_id`,`term_id`,`rank`,`accession`),
+  index feature_sequence (`locus_id`,`term_id`,`rank`,`sequence_id`),
   constraint foreign key (`locus_id`) references locus (`locus_id`),
   constraint foreign key (`term_id`) references term (`term_id`),
   constraint foreign key (`sequence_id`) references sequence (`sequence_id`)
