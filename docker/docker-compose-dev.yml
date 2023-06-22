@@ -1,33 +1,43 @@
 # Development Feature Service docker deployment
 # Feature service image is built and deployed
-service-feature:
-  build: .
-  ports:
-    - 80:8080
-    - 81:8081
-  links:
-    - featuredb
-  restart: always
+version: "3.9"
+services:
+  service-feature:
+    build: .
+    platform: linux/amd64
+    ports:
+      - 80:8080
+      - 81:8081
+    links:
+      - featuredb
+    restart: always
+    volumes:
+      - "./config:/config"
 
-featuredb:
-  image: mysql:5.7
-  # Open the port in dev, in case you want to connect using SQL Tools eg. SQLDeveloper
-  ports:
-    - 3306:3306
-  environment:
-    MYSQL_DATABASE: feature
-    MYSQL_ROOT_PASSWORD: supersecretpwd
-  volumes:
-    - data:/var/lib/mysql
+  featuredb:
+    image: mysql:5.7
+    platform: linux/amd64
+    # Open the port in dev, in case you want to connect using SQL Tools eg. SQLDeveloper
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: feature
+      MYSQL_ROOT_PASSWORD: supersecretpwd
+    volumes:
+       - "data:/var/lib/mysql"
 
-phpmyadmin:
-  image: phpmyadmin/phpmyadmin:5.1
-  container_name: myadmin
-  environment:
-   - PMA_ARBITRARY=1
-     PMA_HOST=featuredb
-  restart: always
-  ports:
-   - 8080:80
-  links:
-  - featuredb:db
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.1
+    platform: linux/amd64
+    container_name: myadmin
+    environment:
+     - PMA_ARBITRARY=1
+       PMA_HOST=featuredb
+    restart: always
+    ports:
+     - 8080:80
+    links:
+    - featuredb:db
+
+volumes:
+  data:
