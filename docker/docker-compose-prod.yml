@@ -1,23 +1,27 @@
 # Production Feature Service docker deployment
-service-feature:
-  image: nmdpbioinformatics/feature-service:1.0.4-SNAPSHOT
-  ports:
-    - 80:8080
-    - 81:8081
-  environment:
-    MYSQL_DATABASE: feature
-    MYSQL_HOST: ${PRODUCTION_MYSQL_HOST}
-    MYSQL_USER: ${PRODUCTION_MYSQL_USER}
-    MYSQL_PASSWORD: ${PRODUCTION_MYSQL_PASSWORD}
-    MYSQL_PORT: 3306
-    LOGGING_LEVEL_FEATURE: INFO
-  restart: always
+version: "3.9"
+services:
+  service-feature:
+    image: nmdpbioinformatics/feature-service:1.1.0
+    platform: linux/amd64
+    ports:
+      - 80:8080
+      - 81:8081
+    environment:
+      MYSQL_DATABASE: feature
+      MYSQL_HOST: ${PRODUCTION_MYSQL_HOST}
+      MYSQL_USER: ${PRODUCTION_MYSQL_USER}
+      MYSQL_PASSWORD: ${PRODUCTION_MYSQL_PASSWORD}
+      MYSQL_PORT: 3306
+      LOGGING_LEVEL_FEATURE: INFO
+    restart: always
 
-feature-tools:
-  image: nginx
-  ports:
-    - 8080:80
-  volumes:
-    - ./tools-web:/usr/share/nginx/html:ro
-  restart: always
+  feature-tools:
+    image: nginx:1.24-alpine
+    platform: linux/amd64
+    ports:
+      - 8080:80
+    volumes:
+      - "./tools-web:/usr/share/nginx/html:ro"
+    restart: always
 
