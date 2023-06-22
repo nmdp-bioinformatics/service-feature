@@ -1,40 +1,48 @@
 # Feature Service docker deployment
-
 # Feature service image is pulled and deployed
-service-feature:
-  image: nmdpbioinformatics/feature-service:latest
-  ports:
-    - 80:8080
-    - 81:8081
-  links:
-    - featuredb
-  restart: always
+version: "3.9"
+services:
+  service-feature:
+    image: nmdpbioinformatics/feature-service:1.1.0
+    platform: linux/amd64
+    ports:
+      - 80:8080
+      - 81:8081
+    links:
+      - featuredb
+    restart: always
+    volumes:
+      - "./config:/config"
 
-# Mysql database
-featuredb:
-  image: mysql:5.7
-  # Open the port in dev, in case you want to connect using SQL Tools eg. SQLDeveloper
-  ports:
-    - 3306:3306
-  environment:
-    MYSQL_DATABASE: feature
-    MYSQL_ROOT_PASSWORD: supersecretpwd
-  # For persistence data
-  # If using Docker Toolbox, ssh into your vm and make a /data directory
-  # before using this docker-compose file.
-  #volumes:
-  #  - /data:/var/lib/mysql
+  # Mysql database
+  featuredb:
+    image: mysql:5.7
+    platform: linux/amd64
+    # Open the port in dev, in case you want to connect using SQL Tools eg. SQLDeveloper
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: feature
+      MYSQL_ROOT_PASSWORD: supersecretpwd
+    # For persistence data
+    # If using Docker Toolbox, ssh into your vm and make a /data directory
+    # before using this docker-compose file.
+    volumes:
+      - "data:/var/lib/mysql"
 
-# phpMyAdmin is a mysql management tool
-phpmyadmin:
-  image: phpmyadmin/phpmyadmin
-  container_name: myadmin
-  environment:
-   - PMA_ARBITRARY=1
-     PMA_HOST=featuredb
-  restart: always
-  ports:
-   - 8080:80
-  links:
-  - featuredb:db
+  # phpMyAdmin is a mysql management tool
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    platform: linux/amd64
+    container_name: myadmin
+    environment:
+     - PMA_ARBITRARY=1
+       PMA_HOST=featuredb
+    restart: always
+    ports:
+     - 8080:80
+    links:
+    - featuredb:db
 
+volumes:
+  data:

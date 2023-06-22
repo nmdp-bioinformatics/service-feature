@@ -1,4 +1,4 @@
-FROM java:7
+FROM --platform=linux/amd64 adoptopenjdk/openjdk8:debian-slim
 MAINTAINER Pradeep Bashyal <pbashyal@nmdp.org>
 
 WORKDIR /feature
@@ -20,4 +20,5 @@ COPY config/database.yml /config/
 COPY feature-dropwizard.jar /feature/feature-dropwizard.jar
 COPY run.sh /feature/run.sh
 
+# Run command
 CMD ["/feature/run.sh"]
